@@ -160,5 +160,12 @@ public class School {
     }));
     System.out.println("smart and not enthusiastic --------------");
     showAll(getByCriterion(roster, and(smart, notEnthusiastic)));
+
+    // Using only smart and notEnthusiastic as criteria...
+    // write the "not" function that allows this code to work
+    System.out.println("not smart and is enthusiastic --------------");
+    showAll(getByCriterion(roster, and(not(smart), not(notEnthusiastic))));
+
+
   }
 }

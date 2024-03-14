@@ -32,6 +32,10 @@ class EnthusiasticCriterion implements CriterionOfStudent {
 
 public class School {
 
+  public static CriterionOfStudent not(CriterionOfStudent crit) {
+    return s -> !crit.test(s);
+  }
+
   public static CriterionOfStudent and(CriterionOfStudent first, CriterionOfStudent second) {
     return s -> first.test(s) && second.test(s);
   }
@@ -70,7 +74,8 @@ public class School {
     List<Student> roster = List.of(
         Student.of("Fred", 3.2, "Math", "Physics"),
         Student.of("Jim", 2.2, "Journalism"),
-        Student.of("Sheila", 3.8, "Math", "Math", "Physics", "AstroPhysics", "Quantum Mechanics")
+        Student.of("Sheila", 3.8, "Math", "Physics", "AstroPhysics", "Quantum Mechanics"),
+        Student.of("Bob", 2.8, "Math", "Physics", "AstroPhysics", "Quantum Mechanics")
     );
 
     showAll(roster);

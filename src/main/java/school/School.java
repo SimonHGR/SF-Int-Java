@@ -42,6 +42,20 @@ public class School {
     return res;
   }
 
+  // these are the bits that change
+//  s.getGpa() > 3.0
+//  s.getCourses().size() > threshold
+
+  public static List<Student> getEnthusiatic(List<Student> ls, int threshold) {
+    List<Student> res = new ArrayList<>();
+    for (Student s : ls) {
+      if (s.getCourses().size() > threshold) {
+        res.add(s);
+      }
+    }
+    return res;
+  }
+
   public static void main(String[] args) {
 //    List<Student> roster = new ArrayList(); // now add one at a time
     // Arrays.asList is Java 8, and should be replaced in newer code
@@ -63,5 +77,7 @@ public class School {
     showAll(getSmart(roster, 3.0));
     System.out.println("Very smart-------------------------");
     showAll(getSmart(roster, 3.5));
+    System.out.println("Enthusiastic ------------------------");
+    showAll(getEnthusiatic(roster, 3));
   }
 }

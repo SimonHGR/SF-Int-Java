@@ -3,7 +3,10 @@ package superiterable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 public class SuperIterable<E> implements Iterable<E> {
   private Iterable<E> self;
@@ -28,6 +31,31 @@ public class SuperIterable<E> implements Iterable<E> {
   // the result will be a S.I. containing the results of calling the
   // argument behavior on each of the original contents.
   // formal parameter type will be UnaryOperator<E>
+  public SuperIterable<E> change(UnaryOperator<E> op) {
+    List<E> res = new ArrayList<>();
+    for (E s : this.self) {
+      res.add(op.apply(s));
+    }
+    return new SuperIterable<>(res);
+  }
+
+  // a "bucket o'stuff" that allows transformations on each individual stuff-item
+  // and produces a new "bucket o'stuff" of the same type using a "map" operation
+  // like this, is called "Functor"
+  public <F> SuperIterable<F> map(Function<E, F> op) {
+    List<F> res = new ArrayList<>();
+    for (E s : this.self) {
+      F theF = op.apply(s);
+      res.add(theF);
+    }
+    return new SuperIterable<>(res);
+  }
+
+  public void forEvery(Consumer<E> op) {
+    for (E e : this.self) {
+      op.accept(e);
+    }
+  }
 
   @Override
   public Iterator<E> iterator() {

@@ -31,6 +31,20 @@ class EnthusiasticCriterion implements CriterionOfStudent {
 }
 
 public class School {
+
+  public static CriterionOfStudent and(CriterionOfStudent first, CriterionOfStudent second) {
+    return s -> first.test(s) && second.test(s);
+  }
+
+  public static CriterionOfStudent and(CriterionOfStudent ... tests) {
+    return s -> {
+      for (CriterionOfStudent crit : tests) {
+        if (!crit.test(s)) return false;
+      }
+      return true;
+    };
+  }
+
   // passing an object primarily for the behavior it contains is an GoF design pattern:
   // Command
   public static List<Student> getByCriterion(List<Student> ls, CriterionOfStudent crit) {
@@ -115,6 +129,11 @@ public class School {
     CriterionOfStudent unenthusiastic = s -> s.getCourses().size() < 3;
     showAll(getByCriterion(roster, unenthusiastic));
 
+    System.out.println("Testing by Student.getSmartnessCriterion(3.0)---------------");
+    showAll(getByCriterion(roster, Student.getSmartnessCriterion(3.0)));
+
+    System.out.println("Testing by Student.getSmartnessCriterion(3.5)---------------");
+    showAll(getByCriterion(roster, Student.getSmartnessCriterion(3.5)));
 
 
 
@@ -122,8 +141,8 @@ public class School {
 
 
 
-
-    CriterionOfStudent funct = (Student s) -> {
+    CriterionOfStudent funct;
+    funct = (Student s) -> {
       return s.getCourses().size() < 3;
     };
     Class<?> cl = funct.getClass();
@@ -132,5 +151,14 @@ public class School {
     for (Method m : methods) {
       System.out.println("> " + m);
     }
+
+    CriterionOfStudent smart = s -> s.getGpa() > 3;
+    CriterionOfStudent notEnthusiastic = s -> s.getCourses().size() < 3;
+    System.out.println("smart and not enthusiastic --------------");
+    showAll(getByCriterion(roster, s -> {
+      return smart.test(s) && notEnthusiastic.test(s);
+    }));
+    System.out.println("smart and not enthusiastic --------------");
+    showAll(getByCriterion(roster, and(smart, notEnthusiastic)));
   }
 }

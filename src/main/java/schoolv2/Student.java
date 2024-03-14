@@ -59,6 +59,23 @@ public final class Student {
       return new Student(this.name, this.gpa, List.copyOf(moreCourses));
    }
 
+   public static CriterionOfStudent getSmartnessCriterion(double threshold) {
+//      threshold++;
+//      return s -> s.getGpa() > threshold++;
+      return s -> {
+//         double t = threshold;
+//         t++;
+         return s.getGpa() > threshold;
+      };
+   }
+
+   public static CriterionOfStudent oddThing(double [] da) {
+      return s -> {
+         da[0]++;
+         return s.getGpa() > da[0];
+      };
+   }
+
    @Override
    public String toString() {
       return "Student{" +

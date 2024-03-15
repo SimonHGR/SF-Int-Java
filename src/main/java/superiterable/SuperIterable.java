@@ -51,6 +51,20 @@ public class SuperIterable<E> implements Iterable<E> {
     return new SuperIterable<>(res);
   }
 
+  // flatMap can "do" filter, and map...
+  // a "bucket o'stuff" that allows transformations in this form
+  // is called "Monad"
+  public <F> SuperIterable<F> flatMap(Function<E, SuperIterable<F>> op) {
+    List<F> res = new ArrayList<>();
+    for (E s : this.self) {
+      SuperIterable<F> theFs = op.apply(s);
+      for (F f : theFs) {
+        res.add(f);
+      }
+    }
+    return new SuperIterable<>(res);
+  }
+
   public void forEvery(Consumer<E> op) {
     for (E e : this.self) {
       op.accept(e);
